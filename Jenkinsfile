@@ -26,7 +26,7 @@ pipeline {
                     bat 'docker rm -f my-app-container || exit 0'
 
                     // Corre un contenedor basado en esa imagen y mapea el puerto 8080
-                    bat 'docker run -d --name my-app-container -p 8080:8080 my-app:latest'
+                    bat 'docker run -d --name my-app-container my-app:latest'
                 }
             }
         }
