@@ -26,7 +26,7 @@ pipeline {
                     bat 'docker rm -f my-app-container || exit 0'
 
                     // Detiene todos los contenedores en ejecución (si hay)
-                    bat 'docker stop $(docker ps -a -q)'
+                    bat 'for /f "tokens=*" %i in (\'docker ps -q\') do docker stop %i || exit 0'
 
                     // Corre un contenedor basado en esa imagen y mapea el puerto 8080
                     bat 'docker run -d --name my-app-container my-app:latest'
