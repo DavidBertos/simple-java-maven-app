@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     // Obtiene el mensaje del último commit
-                    def commitMsg = bat(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
+                    def commitMsg = bat(script: 'git log -1 --pretty=%%B', returnStdout: true).trim()
                     if (commitMsg.contains('DO_NOT_DELIVER')) {
                         echo "El commit contiene DO_NOT_DELIVER. Saltando Deliver."
                     } else {
