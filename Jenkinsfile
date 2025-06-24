@@ -25,6 +25,9 @@ pipeline {
                     // Elimina el contenedor si ya existe
                     bat 'docker rm -f my-app-container || exit 0'
 
+                    // Detiene todos los contenedores en ejecución (si hay)
+                    bat 'docker stop $(docker ps -a -q)'
+
                     // Corre un contenedor basado en esa imagen y mapea el puerto 8080
                     bat 'docker run -d --name my-app-container my-app:latest'
                 }
