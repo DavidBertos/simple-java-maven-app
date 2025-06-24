@@ -19,6 +19,11 @@ pipeline {
         stage('Deliver') {
             steps {
                 script {
+                    // Obtiene el mensaje del último commit
+                    def commitMsg = bat(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
+                    if (commitMsg.contains('DO_NOT_DELIVER')) {
+                        echo "El commit contiene DO_NOT_DELIVER. Saltando Deliver."
+                    } else {
                     // Construye la imagen Docker usando el Dockerfile
                     bat 'docker build -t my-app:latest .'
 
@@ -33,17 +38,7 @@ pipeline {
 
                     // Corre un contenedor basado en esa imagen y mapea el puerto 8080
                     bat 'docker run -d --name my-app-container my-app:latest'
-                }
-            }
-        }
-        stage('Notify Telegram') {
-            steps {
-                script {
-                    def telegramToken = '7578468974:AAGNx0orOs71LJl8Vg3hhl1FYafVrYqjH-Y'
-                    def chatId = '6369339784'
-                    def mensaje = 'La pipeline de Jenkins ha finalizado correctamente.'
-                    def url = "https://api.telegram.org/bot${telegramToken}/sendMessage?chat_id=${chatId}&text=${URLEncoder.encode(mensaje, 'UTF-8')}"
-                    httpRequest url: url
+                    }
                 }
             }
         }
