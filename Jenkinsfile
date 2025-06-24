@@ -48,4 +48,15 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            script {
+                def telegramToken = '7578468974:AAGNx0orOs71LJl8Vg3hhl1FYafVrYqjH-Y'
+                def chatId = '6369339784'
+                def mensaje = "La pipeline ha terminado con estado: ${currentBuild.currentResult}"
+                def url = "https://api.telegram.org/bot${telegramToken}/sendMessage?chat_id=${chatId}&text=${URLEncoder.encode(mensaje, 'UTF-8')}"
+                httpRequest url: url
+            }
+        }
+    }
 }
