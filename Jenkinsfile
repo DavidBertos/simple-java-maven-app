@@ -39,7 +39,7 @@ pipeline {
                     '''
 
                     // Corre un contenedor basado en esa imagen y mapea el puerto 8080
-                    bat 'docker run -d --name my-app-container my-app:${pom_version}'
+                    bat "docker run -d --name my-app-container my-app:${pom_version}"
                     }
                 }
             }
