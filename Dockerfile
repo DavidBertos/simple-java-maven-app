@@ -5,7 +5,7 @@ FROM eclipse-temurin:17-jdk-alpine
 WORKDIR /app
 
 # Copia el JAR del proyecto al contenedor (ajusta el nombre según tu proyecto)
-COPY target/my-app-1.0-SNAPSHOT.jar app.jar
+COPY target/app.jar app.jar
 
 # Expone el puerto (ajústalo según tu aplicación)
 EXPOSE 8080

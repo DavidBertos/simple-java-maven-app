@@ -25,6 +25,8 @@ pipeline {
                         echo "El commit contiene DO_NOT_DELIVER. Saltando Deliver."
                     } else {
                     // Construye la imagen Docker usando el Dockerfile
+                    def version = bat(script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true).trim()
+                    bat "copy target\\my-app-${version}.jar target\\app.jar"
                     bat 'docker build -t my-app:latest .'
 
                     // Elimina el contenedor si ya existe
