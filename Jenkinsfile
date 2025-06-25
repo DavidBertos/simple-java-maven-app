@@ -27,7 +27,7 @@ pipeline {
                     // Construye la imagen Docker usando el Dockerfile
                     def pom = readMavenPom(file: 'pom.xml')
                     def pom_version = pom.version
-                    bat "docker build --build-arg VERSION=${pom_version} -t my-app:latest ."
+                    bat "docker build --build-arg VERSION=${pom_version} -t my-app:${pom_version} ."
 
                     // Elimina el contenedor si ya existe
                     bat 'docker rm -f my-app-container || exit 0'
@@ -39,7 +39,7 @@ pipeline {
                     '''
 
                     // Corre un contenedor basado en esa imagen y mapea el puerto 8080
-                    bat 'docker run -d --name my-app-container my-app:latest'
+                    bat 'docker run -d --name my-app-container my-app:${pom_version}'
                     }
                 }
             }
