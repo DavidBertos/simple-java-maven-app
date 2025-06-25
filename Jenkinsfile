@@ -1,3 +1,4 @@
+def pom
 def pom_version
 
 pipeline {
@@ -27,7 +28,7 @@ pipeline {
                         echo "El commit contiene DO_NOT_DELIVER. Saltando Deliver."
                     } else {
                     // Construye la imagen Docker usando el Dockerfile
-                    def pom = readMavenPom(file: 'pom.xml')
+                    pom = readMavenPom(file: 'pom.xml')
                     pom_version = pom.version
                     bat "docker build --build-arg VERSION=${pom_version} -t my-app:${pom_version} ."
 
@@ -50,6 +51,7 @@ pipeline {
     post {
         always {
             script {
+                pom = readMavenPom(file: 'pom.xml')
                 pom_version = pom.version
                 def telegramToken = '7578468974:AAGNx0orOs71LJl8Vg3hhl1FYafVrYqjH-Y'
                 def chatId = '6369339784'
