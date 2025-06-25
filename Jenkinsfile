@@ -1,3 +1,5 @@
+def pom_version
+
 pipeline {
     agent any
     stages {
@@ -26,7 +28,7 @@ pipeline {
                     } else {
                     // Construye la imagen Docker usando el Dockerfile
                     def pom = readMavenPom(file: 'pom.xml')
-                    def pom_version = pom.version
+                    pom_version = pom.version
                     bat "docker build --build-arg VERSION=${pom_version} -t my-app:${pom_version} ."
 
                     // Elimina el contenedor si ya existe
@@ -48,9 +50,10 @@ pipeline {
     post {
         always {
             script {
+                pom_version = pom.version
                 def telegramToken = '7578468974:AAGNx0orOs71LJl8Vg3hhl1FYafVrYqjH-Y'
                 def chatId = '6369339784'
-                def mensaje = "La pipeline ha terminado con estado: ${currentBuild.currentResult}"
+                def mensaje = "La pipeline ha terminado con estado: ${currentBuild.currentResult} Versión: ${pom_version}"
                 def url = "https://api.telegram.org/bot${telegramToken}/sendMessage?chat_id=${chatId}&text=${URLEncoder.encode(mensaje, 'UTF-8')}"
                 httpRequest url: url
             }
